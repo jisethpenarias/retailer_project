@@ -69,9 +69,20 @@ class OrderViewSet(viewsets.ViewSet):
     def ordersByShipping(self, request):
         """ Method that return order by user id """
         queryDict = request.query_params
-        queryset = Orders.objects.filter(shipping__city=(queryDict.get('city'))).filter(shipping__state=(queryDict.get('state'))).filter(shipping__country=(queryDict.get('country')))
-        serializer = OrderSerializer(queryset, many=True)
+        ordersIds = Shippings.objects.filter(city__exact=queryDict.get('city')).filter(state__exact=queryDict.get('state')).filter(country__exact=queryDict.get('country')).values_list('order')
+        orders = Orders.objects.filter(order_id__in=ordersIds)
+        serializer = OrderSerializer(orders, many=True)
+        
         return Response(serializer.data)
+    
+    def createOrder(self, request):
+        serializer = OrdersSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ShippingViewSet(viewsets.ModelViewSet):
     """ View Shipping """

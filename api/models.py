@@ -121,7 +121,6 @@ class DjangoSession(models.Model):
 class Orders(models.Model):
     order_id = models.PositiveIntegerField(primary_key=True)
     user = models.ForeignKey('Users', models.DO_NOTHING)
-    shipping = models.ForeignKey('Shippings', models.DO_NOTHING, blank=True, null=True)
     date = models.DateTimeField()
     total = models.PositiveIntegerField(blank=True, null=True)
     subtotal = models.PositiveIntegerField(blank=True, null=True)
@@ -131,6 +130,7 @@ class Orders(models.Model):
     class Meta:
         managed = False
         db_table = 'orders'
+
 
 class Payments(models.Model):
     payment_id = models.AutoField(primary_key=True)
@@ -153,6 +153,7 @@ class Shippings(models.Model):
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     cost = models.PositiveIntegerField(blank=True, null=True)
+    order = models.ForeignKey(Orders, models.DO_NOTHING)
 
     class Meta:
         managed = False

@@ -18,7 +18,8 @@ router.register(r'payments', views.PaymentViewSet)
 # Additionally, we include login URLs for the browsable API.
 
 ordersByParam = views.OrderViewSet.as_view({
-    'get': 'ordersByParam'
+    'get': 'ordersByParam',
+    'post': 'createOrder'
 })
 
 ordersByUser = views.OrderViewSet.as_view({
@@ -44,6 +45,7 @@ urlpatterns = [
     path('users/', allUsers, name='createUser'),
     path('users/<user_id>/', userId, name='userId'),
     path('orders/shipping/', ordersByShipping, name='ordersByShipping'),
+    path('orders/', ordersByParam, name='createOrder'),
     path('orders/<param>/', ordersByParam, name='ordersByParam'),
     path('orders/user/<user_id>/', ordersByUser, name='ordersByUser'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))

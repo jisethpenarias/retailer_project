@@ -10,20 +10,20 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     """ serialization of the Order model """
     user = serializers.ReadOnlyField(source='user.name')
-    shipping = serializers.ReadOnlyField(source='shipping.address')
 
     # user = serializers.HyperlinkedIdentityField(view_name='users', format='html')
     # shipping = serializers.HyperlinkedIdentityField(view_name='shippings', format='html')
  
     class Meta:
         model = Orders
-        fields = ('order_id', 'user', 'shipping', 'date', 'total', 'subtotal', 'taxes', 'paid')
+        fields = ('order_id', 'user', 'date', 'total', 'subtotal', 'taxes', 'paid')
 
 class ShippingSerializer(serializers.HyperlinkedModelSerializer):
     """ serialization of the Shippings model """
+    order = serializers.ReadOnlyField(source='order.order_id')
     class Meta:
         model = Shippings
-        fields = ('shipping_id', 'address', 'city', 'state', 'country', 'cost')
+        fields = ('shipping_id', 'address', 'city', 'state', 'country', 'cost', 'order')
 
 class PaymentSerializer(serializers.HyperlinkedModelSerializer):
     """ serialization of the Payments model """
