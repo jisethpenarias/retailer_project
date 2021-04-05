@@ -9,7 +9,7 @@ from . import views
 # Get one specific user will be: /users/<user_id> (GET)
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
+# router.register(r'users', views.UserViewSet)
 # router.register(r'orders', views.OrderViewSet)
 router.register(r'shippings', views.ShippingViewSet)
 router.register(r'payments', views.PaymentViewSet)
@@ -29,8 +29,20 @@ ordersByShipping = views.OrderViewSet.as_view({
     'get': 'ordersByShipping'
 })
 
+allUsers = views.UserViewSet.as_view({
+    'get': 'allUsers',
+    'post': 'createUser'
+})
+
+userId = views.UserViewSet.as_view({
+    'get': 'userId'
+})
+
 urlpatterns = [
     path('', include(router.urls)),
+    path('users/all/', allUsers, name='allUsers'),
+    path('users/', allUsers, name='createUser'),
+    path('users/<user_id>/', userId, name='userId'),
     path('orders/shipping/', ordersByShipping, name='ordersByShipping'),
     path('orders/<param>/', ordersByParam, name='ordersByParam'),
     path('orders/user/<user_id>/', ordersByUser, name='ordersByUser'),

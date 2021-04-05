@@ -132,7 +132,6 @@ class Orders(models.Model):
         managed = False
         db_table = 'orders'
 
-
 class Payments(models.Model):
     payment_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Orders, models.DO_NOTHING)
