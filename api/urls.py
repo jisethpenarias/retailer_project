@@ -39,11 +39,21 @@ userId = views.UserViewSet.as_view({
     'get': 'userId'
 })
 
+orderShippingDetails = views.OrderViewSet.as_view({
+    'get': 'orderShippingDetails'
+})
+
+orderPaymentDetails = views.OrderViewSet.as_view({
+    'get': 'orderPaymentDetails'
+})
+
 urlpatterns = [
     path('', include(router.urls)),
     path('users/all/', allUsers, name='allUsers'),
     path('users/', allUsers, name='createUser'),
     path('users/<user_id>/', userId, name='userId'),
+    path('order/<order_id>/shipping/detail/', orderShippingDetails, name='orderShippingDetails'),
+    path('order/<order_id>/payment/detail/', orderPaymentDetails, name='orderPaymentDetails'),
     path('orders/shipping/', ordersByShipping, name='ordersByShipping'),
     path('orders/', ordersByParam, name='createOrder'),
     path('orders/<param>/', ordersByParam, name='ordersByParam'),

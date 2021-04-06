@@ -72,6 +72,20 @@ class OrderViewSet(viewsets.ViewSet):
         ordersIds = Shippings.objects.filter(city__exact=queryDict.get('city')).filter(state__exact=queryDict.get('state')).filter(country__exact=queryDict.get('country')).values_list('order')
         orders = Orders.objects.filter(order_id__in=ordersIds)
         serializer = OrderSerializer(orders, many=True)
+
+        return Response(serializer.data)
+    
+    def orderShippingDetails(self, request, order_id):
+        """ """
+        shipping = Shippings.objects.get(order_id=order_id)
+        serializer = ShippingSerializer(shipping)
+        
+        return Response(serializer.data)
+
+    def orderPaymentDetails(self, request, order_id):
+        """ """
+        payments = Payments.objects.filter(order_id__exact=order_id)
+        serializer = PaymentSerializer(payments, many=True)
         
         return Response(serializer.data)
     
