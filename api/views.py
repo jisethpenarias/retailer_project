@@ -36,7 +36,7 @@ class UserViewSet(viewsets.ViewSet):
 class OrderViewSet(viewsets.ViewSet):
     """ View Order """
 
-    def orders(self, request):
+    def allOrders(self, request):
         """ Method that return all orders"""
         queryset = Orders.objects.all()
         serializer = OrderSerializer(queryset, many=True)
