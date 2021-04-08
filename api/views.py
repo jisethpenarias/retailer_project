@@ -4,11 +4,14 @@ from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .serializers import UserSerializer, OrderSerializer, ShippingSerializer, PaymentSerializer
 from .models import Users, Orders, Shippings, Payments
 
+
 class UserViewSet(viewsets.ViewSet):
     """ View User """
+    permission_classes = (IsAuthenticated,)
 
     def allUsers(self, request):
         """ Method that return all users"""
@@ -33,8 +36,10 @@ class UserViewSet(viewsets.ViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class OrderViewSet(viewsets.ViewSet):
     """ View Order """
+    permission_classes = (IsAuthenticated,)
 
     def allOrders(self, request):
         """ Method that return all orders"""
@@ -100,10 +105,13 @@ class OrderViewSet(viewsets.ViewSet):
 
 class ShippingViewSet(viewsets.ModelViewSet):
     """ View Shipping """
+    permission_classes = (IsAuthenticated,)
+
     queryset = Shippings.objects.all()
     serializer_class = ShippingSerializer
 
 class PaymentViewSet(viewsets.ModelViewSet):
     """ View Payment """
+    permission_classes = (IsAuthenticated,)
     queryset = Payments.objects.all()
     serializer_class = PaymentSerializer
