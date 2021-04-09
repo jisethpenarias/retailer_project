@@ -13,21 +13,21 @@ class UserViewSet(viewsets.ViewSet):
     """ View User """
     permission_classes = (IsAuthenticated,)
 
-    def allUsers(self, request):
+    def all_user(self, request):
         """ Method that return all users"""
         queryset = Users.objects.all().order_by('name')
         serializer = UserSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
-    def userId(self, request, user_id):
+    def user_id(self, request, user_id):
         """ Method that return user by id"""
         queryset = Users.objects.filter(user_id=user_id)
         serializer = UserSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
-    def createUser(self, request):
+    def create_user(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -41,14 +41,14 @@ class OrderViewSet(viewsets.ViewSet):
     """ View Order """
     permission_classes = (IsAuthenticated,)
 
-    def allOrders(self, request):
+    def all_orders(self, request):
         """ Method that return all orders"""
         queryset = Orders.objects.all()
         serializer = OrderSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
-    def ordersByParam(self, request, param):
+    def order_by_param(self, request, param):
         """ Method that return order by Id or Ids or dates """
     
         if param.find("-") != -1:
@@ -64,14 +64,14 @@ class OrderViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
     
-    def ordersByUser(self, request, user_id):
+    def orders_by_user(self, request, user_id):
         """ Method that return order by user id """
         queryset = Orders.objects.filter(user__user_id=user_id)
         serializer = OrderSerializer(queryset, many=True)
         
         return Response(serializer.data)
 
-    def ordersByShipping(self, request):
+    def orders_by_shipping(self, request):
         """ Method that return order by user id """
         queryDict = request.query_params
         ordersIds = Shippings.objects.filter(city__exact=queryDict.get('city')).filter(state__exact=queryDict.get('state')).filter(country__exact=queryDict.get('country')).values_list('order')
@@ -80,21 +80,21 @@ class OrderViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
     
-    def orderShippingDetails(self, request, order_id):
+    def order_shipping_details(self, request, order_id):
         """ """
         shipping = Shippings.objects.get(order_id=order_id)
         serializer = ShippingSerializer(shipping)
         
         return Response(serializer.data)
 
-    def orderPaymentDetails(self, request, order_id):
+    def order_payment_details(self, request, order_id):
         """ """
         payments = Payments.objects.filter(order_id__exact=order_id)
         serializer = PaymentSerializer(payments, many=True)
         
         return Response(serializer.data)
     
-    def createOrder(self, request):
+    def create_order(self, request):
         serializer = OrdersSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

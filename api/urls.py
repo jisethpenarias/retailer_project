@@ -18,50 +18,50 @@ router.register(r'payments', views.PaymentViewSet)
 # Additionally, we include login URLs for the browsable API.
 
 orders = views.OrderViewSet.as_view({
-    'get': 'allOrders',
-    'post': 'createOrder'
+    'get': 'all_orders',
+    'post': 'create_order'
 })
 
-ordersByParam = views.OrderViewSet.as_view({
-    'get': 'ordersByParam'
+order_by_param = views.OrderViewSet.as_view({
+    'get': 'order_by_param'
 })
 
-ordersByUser = views.OrderViewSet.as_view({
-    'get': 'ordersByUser'
+orders_by_user = views.OrderViewSet.as_view({
+    'get': 'orders_by_user'
 })
 
-ordersByShipping = views.OrderViewSet.as_view({
-    'get': 'ordersByShipping'
+orders_by_shipping = views.OrderViewSet.as_view({
+    'get': 'orders_by_shipping'
 })
 
-allUsers = views.UserViewSet.as_view({
-    'get': 'allUsers',
-    'post': 'createUser'
+all_user = views.UserViewSet.as_view({
+    'get': 'all_user',
+    'post': 'create_user'
 })
 
-userId = views.UserViewSet.as_view({
-    'get': 'userId'
+user_id = views.UserViewSet.as_view({
+    'get': 'user_id'
 })
 
-orderShippingDetails = views.OrderViewSet.as_view({
-    'get': 'orderShippingDetails'
+order_shipping_details = views.OrderViewSet.as_view({
+    'get': 'order_shipping_details'
 })
 
-orderPaymentDetails = views.OrderViewSet.as_view({
-    'get': 'orderPaymentDetails'
+order_payment_details = views.OrderViewSet.as_view({
+    'get': 'order_payment_details'
 })
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('users/', allUsers, name='allUsers'),
-    path('users/', allUsers, name='createUser'),
-    path('users/<user_id>/', userId, name='userId'),
-    path('order/<order_id>/shipping/detail/', orderShippingDetails, name='orderShippingDetails'),
-    path('order/<order_id>/payment/detail/', orderPaymentDetails, name='orderPaymentDetails'),
-    path('orders/shipping/', ordersByShipping, name='ordersByShipping'),
-    path('orders/', orders, name='createOrder'),
-    path('orders/', orders, name='allOrders'),
-    path('orders/<param>/', ordersByParam, name='ordersByParam'),
-    path('orders/user/<user_id>/', ordersByUser, name='ordersByUser'),
+    path('users/', all_user, name='all_user'),
+    path('users/', all_user, name='create_user'),
+    path('users/<user_id>/', user_id, name='user_id'),
+    path('order/<order_id>/shipping/detail/', order_shipping_details, name='order_shipping_details'),
+    path('order/<order_id>/payment/detail/', order_payment_details, name='order_payment_details'),
+    path('orders/shipping/', orders_by_shipping, name='orders_by_shipping'),
+    path('orders/', orders, name='create_order'),
+    path('orders/', orders, name='all_orders'),
+    path('orders/<param>/', order_by_param, name='order_by_param'),
+    path('orders/user/<user_id>/', orders_by_user, name='orders_by_user'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
